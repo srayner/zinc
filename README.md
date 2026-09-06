@@ -34,6 +34,11 @@ npm install
 The repo ships an `.npmrc` allow-listing the packages that need install scripts
 (esbuild, Prisma, Tailwind oxide). Keep it.
 
+`npm install` also runs `prepare`, which points `core.hooksPath` at `.githooks/`.
+That enables a `pre-commit` hook which auto-bumps the patch version in
+`package.json` on every commit made on `main` (feature branches are left alone).
+To set it up manually: `git config core.hooksPath .githooks`.
+
 ### 2. Configure environment variables
 
 ```bash

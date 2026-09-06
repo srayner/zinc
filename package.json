@@ -1,8 +1,9 @@
 {
   "name": "zinc",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks 2>/dev/null || true",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
