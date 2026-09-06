@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { logout } from "@/actions/logout";
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/theme/ModeToggle";
 
 const LINKS = [
   { href: "/dashboard", label: "Dashboard" },
@@ -40,6 +41,7 @@ export function AppNav({ userEmail }: { userEmail: string }) {
         <span className="hidden text-sm text-muted-foreground sm:inline">
           {userEmail}
         </span>
+        <ModeToggle />
         <form action={logout}>
           <Button type="submit" variant="ghost" size="sm">
             Sign out
