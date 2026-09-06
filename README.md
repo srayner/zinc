@@ -125,6 +125,15 @@ Vitest, with two projects in `vitest.config.ts`:
 Prisma is mocked globally in `vitest.setup.ts` via `vitest-mock-extended`; import
 `prismaMock` from `test/mocks/prisma.ts` in service tests.
 
+## Theming
+
+Colour tokens are defined in `app/globals.css` for light (`:root`) and dark
+(`.dark`). The brand **primary is a sandy yellow**, paired with a deep warm-brown
+`--primary-foreground` so text/icons on primary surfaces keep strong contrast in
+both modes. Theme state is handled by `next-themes` (`ThemeProvider` in
+`app/layout.tsx`); a light / dark / system switcher lives in the top nav
+(`components/theme/ModeToggle.tsx`).
+
 ## Development workflow
 
 - Never commit directly to `main`. Branch off `main` for every change; branch
