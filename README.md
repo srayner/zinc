@@ -10,10 +10,11 @@ Part of the in-house suite (Argon, Boron, Carbon, Atlas, Neon, Oxygen). Stack:
 Next.js 15 + TypeScript, Prisma + PostgreSQL, NextAuth v5 (Credentials), Tailwind
 v4 + shadcn/ui, Vitest.
 
-> **Status:** Phase 1 (foundation). Delivered: auth, full schema, the scoring
-> engine (unit-tested), and Zones/Areas management. Task-type library, task
-> assignment, completion logging, the suggestion scheduler, and the backlog list
-> land in later phases.
+> **Status:** early build. Delivered: auth, full schema, the scoring engine
+> (unit-tested), Zones/Areas management, and the task-type library (CRUD +
+> seasonal-multiplier editor). Assigning task types to areas, completion
+> logging, score display, the suggestion scheduler, and the backlog list land
+> in later phases.
 
 ## Prerequisites
 

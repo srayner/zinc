@@ -10,6 +10,7 @@ import { ModeToggle } from "@/components/theme/ModeToggle";
 const LINKS = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/zones", label: "Zones" },
+  { href: "/task-types", label: "Task types" },
   { href: "/backlog", label: "Backlog" },
 ];
 
