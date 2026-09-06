@@ -119,3 +119,13 @@ Vitest, with two projects in `vitest.config.ts`:
 
 Prisma is mocked globally in `vitest.setup.ts` via `vitest-mock-extended`; import
 `prismaMock` from `test/mocks/prisma.ts` in service tests.
+
+## Development workflow
+
+- Never commit directly to `main`. Branch off `main` for every change; branch
+  names start with `feature/`.
+- Merge into `main` with `--no-ff` (`git merge --no-ff feature/…`). The merge
+  commit is what triggers the version-bump `pre-commit` hook — a fast-forward
+  merge creates no commit and would skip the bump.
+- The patch version in `package.json` is bumped automatically on each commit to
+  `main`; don't bump it by hand.
