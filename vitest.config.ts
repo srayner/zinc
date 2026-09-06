@@ -24,6 +24,7 @@ export default defineConfig({
             "lib/**/*.test.{ts,tsx}",
             "services/**/*.test.{ts,tsx}",
             "actions/**/*.test.{ts,tsx}",
+            "schemas/**/*.test.{ts,tsx}",
             "app/api/**/*.test.{ts,tsx}",
           ],
         },
