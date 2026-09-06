@@ -34,10 +34,15 @@ npm install
 The repo ships an `.npmrc` allow-listing the packages that need install scripts
 (esbuild, Prisma, Tailwind oxide). Keep it.
 
-`npm install` also runs `prepare`, which points `core.hooksPath` at `.githooks/`.
-That enables a `pre-commit` hook which auto-bumps the patch version in
-`package.json` on every commit made on `main` (feature branches are left alone).
-To set it up manually: `git config core.hooksPath .githooks`.
+`npm install` also runs `prepare`, which points `core.hooksPath` at `.githooks/`
+and configures non-fast-forward merges into `main`. The `pre-commit` hook
+auto-bumps the patch version in `package.json` on every commit made on `main`
+(feature branches are left alone). To set it up manually:
+
+```bash
+git config core.hooksPath .githooks
+git config branch.main.mergeoptions '--no-ff --no-commit'
+```
 
 ### 2. Configure environment variables
 
@@ -124,8 +129,10 @@ Prisma is mocked globally in `vitest.setup.ts` via `vitest-mock-extended`; impor
 
 - Never commit directly to `main`. Branch off `main` for every change; branch
   names start with `feature/`.
-- Merge into `main` with `--no-ff` (`git merge --no-ff feature/…`). The merge
-  commit is what triggers the version-bump `pre-commit` hook — a fast-forward
-  merge creates no commit and would skip the bump.
+- Merge into `main` with `git merge --no-ff --no-commit feature/… && git commit`.
+  The `--no-commit` stops the merge so the finalising `git commit` runs the
+  `pre-commit` hook and the version bump lands in the merge commit. (Once
+  `prepare` has run, `branch.main.mergeoptions` adds `--no-ff --no-commit`
+  automatically, so `git merge feature/…` on `main` is enough.)
 - The patch version in `package.json` is bumped automatically on each commit to
   `main`; don't bump it by hand.
