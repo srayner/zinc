@@ -1,8 +1,11 @@
 node_modules
 .next
 .git
+.swc
 coverage
+test
+vitest.*
 *.log
-.env
-.env.local
+.env*
+*.tsbuildinfo
 README.md

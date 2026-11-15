@@ -18,7 +18,7 @@ v4 + shadcn/ui, Vitest.
 
 ## Prerequisites
 
-- Node.js 20+ and npm
+- Node.js 26 and npm
 - A running PostgreSQL server with an empty database created for Zinc
 - Git
 
@@ -96,8 +96,14 @@ npm run build
 npm start
 ```
 
-A single-stage `Dockerfile` is included (app image only — run
-`npx prisma migrate deploy` yourself against the target database).
+A multi-stage `Dockerfile` (Node 26) is included. The runtime image holds only
+production dependencies and the built app, with no dev or test tooling and no
+npm, and starts with `node` directly. The Prisma CLI is a production
+dependency, so migrations run from the image at the lockfile-pinned version:
+
+```bash
+docker run --rm -e DATABASE_URL=... <image> node node_modules/prisma/build/index.js migrate deploy
+```
 
 ## Available scripts
 
