@@ -57,7 +57,7 @@ Then edit `.env`:
 | --- | --- |
 | `DATABASE_URL` | PostgreSQL connection string, e.g. `postgresql://user:password@localhost:5432/zinc?schema=public` |
 | `AUTH_SECRET` | NextAuth signing secret — generate with `npx auth secret` or `openssl rand -base64 32` |
-| `AUTH_URL` | Base URL, `http://localhost:3000` in dev |
+| `AUTH_URL` | Base URL, `http://localhost:3007` in dev |
 | `USER_PASSWORD_USER` | Password for the seeded `user@example.com` account |
 | `USER_PASSWORD_ADMIN` | Password for the seeded `admin@example.com` account |
 
@@ -87,7 +87,7 @@ placeholder areas and task types to exercise the UI.
 npm run dev
 ```
 
-Open http://localhost:3000 and sign in with `user@example.com`.
+Open http://localhost:3007 and sign in with `user@example.com`.
 
 ### 6. Run in production
 

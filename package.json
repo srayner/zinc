@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "prepare": "git config core.hooksPath .githooks 2>/dev/null && git config branch.main.mergeoptions '--no-ff --no-commit' 2>/dev/null || true",
-    "dev": "next dev",
+    "dev": "next dev -p 3007",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p ${PORT:-3007}",
     "lint": "next lint",
     "seed": "tsx prisma/seed.ts",
     "db:generate": "prisma generate",
@@ -39,7 +39,7 @@
     "react-hook-form": "^7.56.1",
     "sonner": "^1.7.4",
     "tailwind-merge": "^3.2.0",
-    "zod": "^3.24.3"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

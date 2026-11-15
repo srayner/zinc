@@ -3,23 +3,23 @@ import { EffortLevel, ZoneType } from "@prisma/client";
 
 const seasonalMultipliers = z
   .array(z.number().positive().max(10))
-  .length(12, { message: "Provide exactly 12 monthly multipliers" });
+  .length(12, { error: "Provide exactly 12 monthly multipliers" });
 
 export const CreateTaskTypeSchema = z.object({
-  name: z.string().trim().min(1, { message: "Name is required" }).max(100),
+  name: z.string().trim().min(1, { error: "Name is required" }).max(100),
   defaultFrequencyDays: z
-    .number({ invalid_type_error: "Frequency is required" })
-    .int({ message: "Frequency must be a whole number of days" })
-    .positive({ message: "Frequency must be at least 1 day" })
+    .number({ error: "Frequency is required" })
+    .int({ error: "Frequency must be a whole number of days" })
+    .positive({ error: "Frequency must be at least 1 day" })
     .max(3650),
   defaultWeight: z
-    .number({ invalid_type_error: "Weight is required" })
-    .positive({ message: "Weight must be greater than 0" })
+    .number({ error: "Weight is required" })
+    .positive({ error: "Weight must be greater than 0" })
     .max(10),
-  effortLevel: z.nativeEnum(EffortLevel),
+  effortLevel: z.enum(EffortLevel),
   applicableZoneTypes: z
-    .array(z.nativeEnum(ZoneType))
-    .min(1, { message: "Pick at least one zone" }),
+    .array(z.enum(ZoneType))
+    .min(1, { error: "Pick at least one zone" }),
   seasonalMultipliers,
 });
 
