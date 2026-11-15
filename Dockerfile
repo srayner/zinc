@@ -1,10 +1,61 @@
-FROM node:20-alpine
+# ---- Stage 1: build ----
+# Full dependency set (incl. dev) to generate the Prisma client and build Next.js.
+FROM node:26-alpine AS builder
+
 RUN apk add --no-cache openssl
+
 WORKDIR /app
+
+COPY package*.json .npmrc ./
+RUN npm ci
+
+# Copy the whole context: .dockerignore decides what stays out, and this stage
+# never ships (only the build output is copied into the runner).
 COPY . .
-RUN npm install
+
 RUN npx prisma generate
 RUN npm run build
-RUN npm prune --production
+
+# ---- Stage 2: production dependencies ----
+# Dev dependencies (vitest, testing-library, ...) are never installed here.
+# The prisma CLI is a regular dependency so `prisma migrate deploy` works from the
+# final image at the exact version pinned in package-lock.json.
+FROM node:26-alpine AS prod-deps
+
+RUN apk add --no-cache openssl
+
+WORKDIR /app
+
+COPY package*.json .npmrc ./
+RUN npm ci --omit=dev
+
+# Generate the client against the prod node_modules so it lands in
+# node_modules/.prisma and matches the runtime's engine/platform.
+COPY prisma ./prisma
+RUN npx prisma generate
+
+# ---- Stage 3: runtime ----
+FROM node:26-alpine AS runner
+
+# Prisma's query/migration engines need openssl at runtime
+RUN apk add --no-cache openssl
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+# Nothing at runtime needs npm: the app starts via node and migrations run from
+# the locked prisma CLI in node_modules. Removing it drops npm's bundled deps
+# from the image.
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx
+
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY --from=prod-deps /app/prisma ./prisma
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/next.config.ts ./next.config.ts
+
 EXPOSE 3000
-CMD ["npm", "start"]
+
+CMD ["node", "node_modules/next/dist/bin/next", "start"]
