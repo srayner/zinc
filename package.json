@@ -62,5 +62,10 @@
     "typescript": "^5",
     "vitest": "^3.2.7",
     "vitest-mock-extended": "^2.0.2"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "^8.5.23"
+    }
   }
 }
