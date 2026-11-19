@@ -9,3 +9,4 @@ vitest.*
 .env*
 *.tsbuildinfo
 README.md
+lib/generated

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { EffortLevel, ZoneType } from "@prisma/client";
+import { EffortLevel, ZoneType } from "@/lib/generated/prisma/enums";
 
 const seasonalMultipliers = z
   .array(z.number().positive().max(10))

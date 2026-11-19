@@ -13,7 +13,7 @@ RUN npm ci
 # never ships (only the build output is copied into the runner).
 COPY . .
 
-RUN npx prisma generate
+# prebuild runs `prisma generate` first.
 RUN npm run build
 
 # ---- Stage 2: production dependencies ----
@@ -29,15 +29,10 @@ WORKDIR /app
 COPY package*.json .npmrc ./
 RUN npm ci --omit=dev
 
-# Generate the client against the prod node_modules so it lands in
-# node_modules/.prisma and matches the runtime's engine/platform.
-COPY prisma ./prisma
-RUN npx prisma generate
-
 # ---- Stage 3: runtime ----
 FROM node:26-alpine AS runner
 
-# Prisma's query/migration engines need openssl at runtime
+# Prisma's migration (schema) engine, used by `migrate deploy`, needs openssl at runtime
 RUN apk upgrade --no-cache && apk add --no-cache openssl
 
 WORKDIR /app
@@ -50,7 +45,10 @@ ENV NODE_ENV=production
 RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx
 
 COPY --from=prod-deps /app/node_modules ./node_modules
-COPY --from=prod-deps /app/prisma ./prisma
+# Migrations and the CLI config `prisma migrate deploy` reads (Prisma 7). The client
+# itself is generated in the builder and bundled into .next.
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json

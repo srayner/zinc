@@ -1,26 +1,12 @@
-import bcrypt from "bcryptjs";
 import type { NextAuthConfig } from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import { LoginSchema } from "@/schemas";
-import { getUserByEmail } from "@/services/user";
 
+/**
+ * The part of the auth setup the middleware uses: it only reads the session token, so this
+ * file must not import anything that reaches the database (Prisma needs Node APIs).
+ * Providers, the adapter and the database-backed callbacks live in lib/auth/index.ts.
+ */
 export default {
-  providers: [
-    Credentials({
-      async authorize(credentials) {
-        const validatedFields = LoginSchema.safeParse(credentials);
-        if (!validatedFields.success) return null;
-
-        const { email, password } = validatedFields.data;
-
-        const user = await getUserByEmail(email);
-        if (!user || !user.password) return null;
-
-        const passwordsMatch = await bcrypt.compare(password, user.password);
-        if (passwordsMatch) return user;
-
-        return null;
-      },
-    }),
-  ],
+  providers: [],
+  session: { strategy: "jwt" },
+  trustHost: true,
 } satisfies NextAuthConfig;

@@ -63,13 +63,18 @@ Then edit `.env`:
 
 `.env*` is gitignored (except `.env.example`).
 
-### 3. Build the database schema
+### 3. Generate the Prisma client and build the database schema
 
 ```bash
+npx prisma generate         # writes the client to lib/generated/prisma (gitignored)
 npx prisma migrate deploy   # apply existing migrations
 # or, when changing the schema:
-npx prisma migrate dev
+npx prisma migrate dev && npx prisma generate
 ```
+
+Prisma 7 notes: the CLI reads `prisma.config.ts` (schema, migrations, seed command and
+`DATABASE_URL`, loaded from `.env` by dotenv). `migrate dev` no longer regenerates the
+client or seeds, so run `npx prisma generate` and `npm run seed` yourself.
 
 ### 4. Seed the database
 
