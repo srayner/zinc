@@ -1,4 +1,4 @@
-import { EffortLevel, ZoneType } from "@prisma/client";
+import { EffortLevel, ZoneType } from "../lib/generated/prisma/enums";
 
 export const NEUTRAL_12 = Array(12).fill(1);
 

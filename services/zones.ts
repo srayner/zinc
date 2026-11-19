@@ -1,4 +1,4 @@
-import { ZoneType } from "@prisma/client";
+import { ZoneType } from "@/lib/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 
 export function listZones() {

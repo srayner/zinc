@@ -11,6 +11,8 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       include: ["lib/**", "services/**", "actions/**", "app/api/**"],
+      // The Prisma client is generated code, not ours to cover.
+      exclude: ["lib/generated/**"],
     },
     projects: [
       {

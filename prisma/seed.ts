@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+// Prisma 7 no longer loads environment files itself; this must run before the client is made.
+import "dotenv/config";
 import bcrypt from "bcryptjs";
+import { prisma } from "../lib/prisma";
 import { areasByZone, taskTypes, zones } from "./seedData";
-
-const prisma = new PrismaClient();
 
 async function clearData() {
   // Delete in FK-dependency order.

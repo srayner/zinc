@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import type { TaskType } from "@prisma/client";
+import type { TaskType } from "@/lib/generated/prisma/client";
 
 import { CreateTaskTypeSchema, type CreateTaskTypeInput } from "@/schemas";
 import {

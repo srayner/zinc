@@ -1,10 +1,12 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  // Generated into the source tree (gitignored) and bundled by Next, not into node_modules.
+  output   = "../lib/generated/prisma"
 }
 
+// The connection URL lives in prisma.config.ts (Prisma 7).
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 // ---------------------------------------------------------------------------
