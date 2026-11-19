@@ -1,6 +1,6 @@
 {
   "name": "zinc",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "private": true,
   "scripts": {
     "prepare": "git config core.hooksPath .githooks 2>/dev/null && git config branch.main.mergeoptions '--no-ff --no-commit' 2>/dev/null || true",
